@@ -65,3 +65,7 @@ RUN git clone -b ${hhblits_version} https://github.com/soedinglab/hh-suite && \
 
 ENV PATH="/Pharmcadd/hh-suite/build/bin:/Pharmcadd/hh-suite/build/bin/scripts:$PATH"
 
+RUN git clone https://github.com/spydr1/Protein-Resarch.git && \
+    cd /Pharmcadd/Protein-Resarch && \
+    python setup.py install
+

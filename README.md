@@ -1,8 +1,10 @@
-# Usage 
+This module only predicts the distance map using the direct coupling analysis (DCA) that is
+computed by multiple sequence alignment (MSA).
+Actually it is not recent work, we just want to study related work.
+So, we don't have any plan of improvement. 
 
-## Installation
-
-* INSTALL.md
+# Usage
+## [Installation](https://github.com/spydr1/Protein-Resarch/blob/main/INSTALL.md)
 
 ## Predict
 ```angular2html
@@ -12,10 +14,6 @@ put the database in [your data path]
 
 # run container
 nvidia-docker run -it --network=host -v /mnt/share/ssh:/root/.ssh -v [your data path]:/data pharmcadd:1.0
-
-git clone https://github.com/spydr1/worksheet.git
-cd /worksheet/official/base
-python setup.py install
 
 vim run_predict.sh
 
@@ -28,7 +26,8 @@ please set your fasta folder and put your fasta file in folder.
 sh run_predict.sh
 ```
 
-## Create data
+## Train
+### Create data
 ```
 0. Crawling casp data (casp 12,13,14)
 python crawling.py 
@@ -80,7 +79,7 @@ numpy --dca_path =/data/dca --pssm_path =/data/pssm
 
 ```
 
-## Train
+### Train
 ```angular2html
 you need to set your training data path and validation data path.
 This model need big memory, so please set carefully set batchsize.

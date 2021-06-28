@@ -9,20 +9,22 @@ DCA는 i, j 번째에 어떠한 아미노산이 등장하는가에 대한 확률
 즉, i,j 번째 의 아미노산이 (AA, AB .. --)일 확률을 의미한다. 아미노산의 종류는 20개 이지만 "-" (gap)을 나타내는 
 경우가 추가 되어서 총 21x21 = 441개의 확률값으로 나타난다.  
 
-<!-- todo 자세한 설명 링크 --> 
-* one dimensional feature = pssm (21) + one-hot vector (20) + positional entropy (1) -> 총 42개
-* pssm : 아미노산(20) + "-"(1) = 21  
-* one-hot sequence : 아미노산(20)  
-* positional entropy : (1)    
-  
-이것을 two dimensional feature로 만들기 수평적, 수직적으로 쌓고 두개를 합친다. 
-행 i에 해당하는 one dimensional feature + 열 j에 해당하는 one dimensional feature를 쌓는다라는 의미. 
+* PSSM : (20)
+* One-hot sequence : 아미노산(20) + "-"(1) = 21  
+* 1D feature = pssm (20) + one-hot vector (21) + positional entropy (1) -> 총 42개
+* DCA : (21x21 = 441)
+* Positional Entropy : (1)
+* 2D feature = DCA (441) + Positional Entropy (1) -> 총 442개  
+   
+-> 1D feature를 2D feature로 변환 ([예시]) -> concat ( i 번째 1d feature, j번째 1d feature) 의 형태로 사용한다.
 
-<!-- todo 모두가 이해 할수 있나 .. 이말을? 막대그림으로 표현해서 알려주자. -->
+[예시]: https://ars.els-cdn.com/content/image/3-s2.0-B9780128160343000079-f07-06-9780128160343.jpg
 
 ### Output
-주어진 input으로 output distance map (2~18, 16 bins) 의 형태로 예측한다.   
+주어진 input으로 output distance map (2~18, 16 bins) 의 형태로 예측한다. ([distogram])  
 output shpae : [seq_length, seq_length, 16]   
+
+[distogram]: https://lh3.googleusercontent.com/proxy/FJiDahkyzmqGiSNeLskj-OHWYoVHkTb8A2-F22RqX1hEARvCDpRyZ2JlP4SNkPBOM-Od9Ps3REsA7tSLYTQuSKbJ8_gR8ea4OGBwE7xExFVIImsRy5gR4BYZc6Ru2A7fDTbagtTXpu2c1RpRxXC6FC6xfWqtt_qDcMNu25SYZj2s6rc
 
 
 ### Training  
@@ -45,13 +47,12 @@ trRosetta - output is different. now, I use only distance or contact map.
     iii) should contain minimal fluctuating (i.e. missing density) regions.  
     iv) sequence similarity 40%  
     v) Minimum resolution 2.5 Å  
-    vi) limiting their size to 50-300 residues    
-2. [Baker list](https://github.com/spydr1/worksheet/blob/master/experiment/mj/report/Ver_1_20210316.md#2-baker) 
+    vi) limiting their size to 50-300 residues
+   
+2. MSA의 결과가 최소 100개 이상인 경우만 사용
 
-3. MSA의 결과가 최소 100개 이상인 경우만 사용
-
-4. Final list 
-1. Dunbrack & 2. Baker & 3. MSA 결과가 100개 이상인 경우의 교집합     
+3. Final list 
+1. Dunbrack & 2. MSA 결과가 100개 이상인 경우의 교집합     
 Totally, number of data : 9062 (나의 부등호 실수로 인해서 일단 단백질 길이가 201~299인 데이터로 사용)
 
 5. Data split : train - 8000, validation - 1062

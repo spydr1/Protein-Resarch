@@ -81,7 +81,7 @@ sudo chmod 666 /var/run/docker.sock
 
 #### F. Build
 ```
-cd [your path]/worksheet/official/base/docker
+cd [your path]/Protein-Resarch/docker
 docker build -t pharmcadd:1.0 .  
 
 # you can check your images .
