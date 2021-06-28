@@ -9,9 +9,9 @@ DCA는 i, j 번째에 어떠한 아미노산이 등장하는가에 대한 확률
 즉, i,j 번째 의 아미노산이 (AA, AB .. --)일 확률을 의미한다. 아미노산의 종류는 20개 이지만 "-" (gap)을 나타내는 
 경우가 추가 되어서 총 21x21 = 441개의 확률값으로 나타난다.  
 
-* PSSM : (20)
-* One-hot sequence : 아미노산(20) + "-"(1) = 21  
-* 1D feature = pssm (20) + one-hot vector (21) + positional entropy (1) -> 총 42개
+* PSSM : 아미노산(20) + gap(1) = 21
+* One-hot sequence : 아미노산(20)  
+* 1D feature = pssm (21) + One-hot sequence (20) + Positional Entropy (1) -> 총 42개
 * DCA : (21x21 = 441)
 * Positional Entropy : (1)
 * 2D feature = DCA (441) + Positional Entropy (1) -> 총 442개  
