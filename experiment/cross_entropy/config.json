@@ -1,0 +1,17 @@
+{"validation_ratio": 0.2,
+  "train_path": "/data/tfrecord/train",
+  "valid_path": "/data/tfrecord/valid",
+  "eval_path": "/casp_test/casp12/tfrecord/",
+  "learning_rate": 0.001,
+  "end_learning_rate": 1e-07,
+  "warmup_step": 10000,
+  "weight_decay_rate": 1e-05,
+  "max_len": 300,
+  "random_seed": 12345,
+  "batch_size": 1,
+  "epochs": 1000,
+  "step": 1000,
+  "buffer_size": 30,
+  "load_weight":"ckpt/340-0.09548-0.24967.h5" ,
+  "bins": 16}
+
