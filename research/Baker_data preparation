@@ -1,0 +1,21 @@
+reference: https://doi.org/10.1101/2020.07.17.209643
+PISCES server: http://dunbrack.fccc.edu/Guoli/PISCES_ChooseInputPage.php
+
+Training and test sets for protein model structures (often called decoys) are generated to most resemble starting models of real-case refinement problems. 
+We reasoned that arelevant decoy structure should meet the following conditions: 
+i) has template(s) not too far or close in sequence space; 
+ii) does not have strong contacts to other protein chains, 
+iii) should contain minimal fluctuating (i.e. missing density) regions. 
+To this end, we picked a set of crystal structures from the PISCES server (deposited by May 1, 2018) containing 20,399
+PDB entries with maximum sequence redundancy of 40% and minimum resolution of 2.5 Å.
+
+We further trimmed the list to 8,718 chains by limiting their size to 50-300 residues and requiring that proteins are either monomeric or 
+have minimal interaction with other chains(weaker than 1 kcal/mol per residue in Rosetta energy). 
+
+HHsearch 30 was used to search for templates; 
+50 templates with the highest HHsearch probability, 
+sequence identity of at most 40% and sequence coverage of at least 50% are selected for model generation.
+
+
+secondary structure(DSSP) : https://swift.cmbi.umcn.nl/gv/dssp/
+secondary structure(sc) : http://dunbrack.fccc.edu/PISCES.php
