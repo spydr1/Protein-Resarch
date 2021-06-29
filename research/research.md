@@ -1,47 +1,52 @@
 # Introduction 
-Convoultional neural network (CNN) 을 이용한 distance map 예측.  
+Convoultional neural network (CNN) 을 이용한 [distance map] 예측.  
+
+[distance map]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#ca-distance-matrix
 
 ## Distance map prediction.
 ### Input
-input으로 주어진 fasta file로 부터 multiple sequence alignment (MSA)을 실행한다.  
-MSA의 결과를 direct coupling analysis (DCA)을 이용해 [seq_length,seq_length,441] 개의 행렬로 변환한다.   
+input으로 주어진 fasta file로 부터 multiple sequence alignment ([MSA])을 실행한다.  
+MSA의 결과를 direct coupling analysis ([DCA])을 이용해 [seq_length,seq_length,441] 개의 행렬로 변환한다.   
 DCA는 i, j 번째에 어떠한 아미노산이 등장하는가에 대한 확률값이다.  
 즉, i,j 번째 의 아미노산이 (AA, AB .. --)일 확률을 의미한다. 아미노산의 종류는 20개 이지만 "-" (gap)을 나타내는 
 경우가 추가 되어서 총 21x21 = 441개의 확률값으로 나타난다.  
 
-* PSSM : 아미노산(20) + gap(1) = 21
-* One-hot sequence : 아미노산(20)  
+[MSA]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#msa
+[DCA]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#dca-features
+
+* [PSSM] : 아미노산(20) + gap(1) = 21
+* [One-hot sequence] : 아미노산(20)  
 * 1D feature = pssm (21) + One-hot sequence (20) + Positional Entropy (1) -> 총 42개
 * DCA : (21x21 = 441)
-* Positional Entropy : (1)
+* [Positional Entropy] : (1)
 * 2D feature = DCA (441) + Positional Entropy (1) -> 총 442개  
    
 -> 1D feature를 2D feature로 변환 ([예시]) -> concat ( i 번째 1d feature, j번째 1d feature) 의 형태로 사용한다.
 
+[One-hot sequence]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#1-sequence-information
+[Positional Entropy]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#3-entropy
+[PSSM]: https://github.com/spydr1/Protein-Resarch/blob/main/research/baker2020.md#2-pssm
 [예시]: https://ars.els-cdn.com/content/image/3-s2.0-B9780128160343000079-f07-06-9780128160343.jpg
 
 ### Output
 주어진 input으로 output distance map (2~18, 16 bins) 의 형태로 예측한다. ([distogram])  
 output shpae : [seq_length, seq_length, 16]   
 
-[distogram]: https://lh3.googleusercontent.com/proxy/FJiDahkyzmqGiSNeLskj-OHWYoVHkTb8A2-F22RqX1hEARvCDpRyZ2JlP4SNkPBOM-Od9Ps3REsA7tSLYTQuSKbJ8_gR8ea4OGBwE7xExFVIImsRy5gR4BYZc6Ru2A7fDTbagtTXpu2c1RpRxXC6FC6xfWqtt_qDcMNu25SYZj2s6rc
+[distogram]: http://www.btnews.or.kr/bbs/view_image.php?fn=%2Fdata%2Feditor%2F1904%2Fd7f4ce791d8af2f9edf77ea84071ba54_1554714472_8975.jpg
 
 
 ### Training  
 
 #### Architecture  
 <!-- architecture/respre.py -->
-trRosetta - output is different. now, I use only distance or contact map.
+[trRosetta] - output is different. now, I use only distance or contact map.
 
-<!-- B.Baker -->
-아래의 B. Baker 를 확인. 
-
-    
+[trRosetta]: https://www.pnas.org/content/pnas/117/3/1496/F1.large.jpg?width=800&height=600&carousel=1
 
 #### Train
 
 ##### Data
-1. [Dunbrack](https://github.com/spydr1/worksheet/blob/master/experiment/jbc/PDB70.md) # todo 링크 
+1. [Dunbrack](https://github.com/spydr1/Protein-Resarch/blob/main/research/Baker_data%20preparation) # todo 링크 
     i) has template(s) not too far or close in sequence space;  
     ii) does not have strong contacts to other protein chains,  
     iii) should contain minimal fluctuating (i.e. missing density) regions.  
@@ -227,12 +232,7 @@ output1 = output2 가 되려면  Convolution Layer가 어떤 값을 가져야 �
 현재 타겟 단백질이 인간의 것이라고 가정했을 때, 유사도가 높은 것들을 가져오는 행위는 인간종에서만 비슷한 단백질을 가져 오겠다라는 것과 같을수 있으며
 이는 타겟 단백질과 닮았을 것이라고 무조건적으로 보장할 수 없다. 오히려 다른 종이 인간의 단백질에게 무언가를 상호작용 하기 위한 무기로서 단백질의 구조를 결정하였다면
 아직은 알수 없는 방패의 모양을 무기의 모양을 보고 유추 할수도 있다.
-
-[d14]: https://github.com/spydr1/worksheet/discussions/14
-
-
-
-
+  
 ## Future
 1. pdb 구조 없더라도 sequence로만으로도 학습 할수 있게끔 하자.  
    -> masked language model (MLM)   
